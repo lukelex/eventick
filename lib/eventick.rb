@@ -4,6 +4,7 @@ require 'json'
 require "eventick/version"
 
 require 'eventick/auth'
+require 'eventick/event'
 
 module Eventick
   def self.config(&block)

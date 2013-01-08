@@ -10,7 +10,7 @@ module Eventick
     end
 
     def token
-      @token ||= Eventick.request(URL)['token']
+      @token ||= (Eventick.request URL)['token']
     end
   end
 end

@@ -27,6 +27,7 @@ describe Eventick::Auth do
         :body => '{ "token" : "dpoi2154wijdsk4fo65ow4o2pkd" }'
       )
     end
+
     it 'with valid credentials' do
       auth.token.must_equal 'dpoi2154wijdsk4fo65ow4o2pkd'
     end
