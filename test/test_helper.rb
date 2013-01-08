@@ -2,6 +2,7 @@ require 'minitest/spec'
 require 'minitest/autorun'
 require 'turn'
 require 'eventick'
+require 'fakeweb'
 
 module TestHelper
   BASE_PATH = File.expand_path("../fixtures", __FILE__)

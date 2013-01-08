@@ -21,4 +21,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'turn'
   gem.add_development_dependency 'guard'
   gem.add_development_dependency 'minitest'
+  gem.add_development_dependency 'fakeweb'
 end
