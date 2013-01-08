@@ -1,7 +1,7 @@
 require_relative '../test_helper'
 
 describe Eventick::Auth do
-  let (:auth) { Eventick::Auth.new }
+  let (:auth) { Eventick.auth }
 
   describe 'checking method initialization' do
     it ('email') { auth.must_respond_to :email }
@@ -23,14 +23,16 @@ describe Eventick::Auth do
     let (:auth_response) { fetch_fixture_path('auth.json') }
 
     before do
-      fake_get_url Eventick::Auth::URI, auth_response
+      fake_get_url Eventick::Auth::URI, auth_response, :email => 'jesus@eventick.com.br', :password => 12345678
     end
 
     it 'with valid credentials' do
-      Eventick.config do |eventick|
-        p eventick.email
-      end
       auth.token.must_equal 'dpoi2154wijdsk4fo65ow4o2pkd'
+    end
+
+    it 'with invalid credentials' do
+      Eventick.config {}
+      auth.token.must_be_nil
     end
   end
 end
