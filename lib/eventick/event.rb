@@ -4,22 +4,17 @@ class Eventick::Event
   attr_accessor :id, :start_at, :title, :tickets
   attr_reader :attendees
 
+  # constructors
   def initialize(args={})
-    # ?auth_token=f9d93dk211394
+    args.each do |key, value|
+      self.public_send("#{key}=", value)
+    end
   end
 
   # class methods
-  def self.build(params={})
-    inst = new
-    params.each do |key, value|
-      inst.public_send("#{key}=", value)
-    end if params
-    inst
-  end
-
   def self.all
     events_response = Eventick.request URI, auth_token
-    events_response.map { |event_response| self.build event_response }
+    events_response.map { |event_response| self.new event_response }
   end
 
   # instance methods
