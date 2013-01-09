@@ -16,6 +16,10 @@ module TestHelpers
     FakeWeb.register_uri(:get, uri, :body => response)
   end
 
+  def fake_put_url(uri, response)
+    FakeWeb.register_uri(:put, uri, :body => response)
+  end
+
   def with_params(url, params)
     url.request_uri + "?" + params.map {|k,v| CGI.escape(k.to_s)+'='+CGI.escape(v.to_s) }.join("&")
   end
@@ -31,6 +35,7 @@ class MiniTest::Spec
   let (:auth_response) { fetch_fixture_path('auth.json') }
   let (:events_response) { fetch_fixture_path('events.json') }
   let (:attendees_response) { fetch_fixture_path('attendees.json') }
+  let (:checkin_response) { fetch_fixture_path('checkin.json') }
 
   before do
     FakeWeb.allow_net_connect = false

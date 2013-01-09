@@ -8,6 +8,7 @@ require 'eventick/auth'
 require 'eventick/event'
 require 'eventick/attendee'
 require 'eventick/ticket'
+require 'eventick/checkin'
 
 module Eventick
   def self.config(&block)
@@ -21,6 +22,20 @@ module Eventick
     response = http.start do |http|
       path = with_params uri.request_uri, params
       http.request Net::HTTP::Get.new(path)
+    end
+
+    return {} unless response.is_a? Net::HTTPSuccess
+    # return response.body unless block_given?
+    # yield JSON.parse(response.body)
+    JSON.parse(response.body)
+  end
+
+  def self.put(uri, params={})
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true if uri.scheme == 'https'
+
+    response = http.start do |http|
+      http.request_put(uri.request_uri, params)
     end
 
     return {} unless response.is_a? Net::HTTPSuccess
