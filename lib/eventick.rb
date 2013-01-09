@@ -6,6 +6,7 @@ require "eventick/version"
 
 require 'eventick/auth'
 require 'eventick/event'
+require 'eventick/attendee'
 
 module Eventick
   def self.config(&block)
