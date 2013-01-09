@@ -14,14 +14,10 @@ describe Eventick::Attendee do
   end
 
   describe 'retrieving attendees' do
-    let (:auth_response) { fetch_fixture_path('auth.json') }
-    let (:events_response) { fetch_fixture_path('events.json') }
-    let (:attendees_response) { fetch_fixture_path('attendees.json') }
-
     before do
-      fake_get_url Eventick::Auth::URI, auth_response, :email => 'jesus@eventick.com.br', :password => 12345678
-      fake_get_url Eventick::Event::URI, events_response, :auth_token => 'dpoi2154wijdsk4fo65ow4o2pkd'
-      fake_get_url Eventick::Attendee::URI, attendees_response, :auth_token => 'dpoi2154wijdsk4fo65ow4o2pkd', :event_id => '11'
+      fake_get_url Eventick::Auth::URI, auth_response, auth_params
+      fake_get_url Eventick::Event::URI, events_response, events_params
+      fake_get_url Eventick::Attendee::URI, attendees_response, attendees_params
     end
 
     it 'all' do

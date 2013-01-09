@@ -20,14 +20,12 @@ describe Eventick::Auth do
   end
 
   describe 'getting the api token' do
-    let (:auth_response) { fetch_fixture_path('auth.json') }
-
     before do
-      fake_get_url Eventick::Auth::URI, auth_response, :email => 'jesus@eventick.com.br', :password => 12345678
+      fake_get_url Eventick::Auth::URI, auth_response, auth_params
     end
 
     it 'with valid credentials' do
-      auth.token.must_equal 'dpoi2154wijdsk4fo65ow4o2pkd'
+      auth.token.must_equal events_params[:auth_token]
     end
 
     it 'with invalid credentials' do

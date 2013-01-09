@@ -24,6 +24,14 @@ end
 class MiniTest::Spec
   include TestHelpers
 
+  let (:auth_params) { { :email => 'jesus@eventick.com.br', :password => 12345678 } }
+  let (:events_params) { { :auth_token => 'dpoi2154wijdsk4fo65ow4o2pkd' } }
+  let (:attendees_params) { { :auth_token => 'dpoi2154wijdsk4fo65ow4o2pkd', :event_id => '11' } }
+
+  let (:auth_response) { fetch_fixture_path('auth.json') }
+  let (:events_response) { fetch_fixture_path('events.json') }
+  let (:attendees_response) { fetch_fixture_path('attendees.json') }
+
   before do
     FakeWeb.allow_net_connect = false
 
