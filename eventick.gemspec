@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+
 require 'eventick/version'
 
 Gem::Specification.new do |gem|
@@ -13,13 +14,15 @@ Gem::Specification.new do |gem|
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
+  gem.add_dependency 'json'
+
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'turn'
-  gem.add_development_dependency 'guard'
+  gem.add_development_dependency 'guard-minitest'
+  gem.add_development_dependency 'rb-fsevent'
   gem.add_development_dependency 'minitest'
   gem.add_development_dependency 'fakeweb'
 end
