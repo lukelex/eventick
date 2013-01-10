@@ -1,6 +1,6 @@
 require_relative '../test_helper'
 
-describe Eventick::Attendee do
+describe Eventick::Checkin do
   let (:checkin) { Eventick::Checkin.new }
 
   describe 'checking method initialization' do
