@@ -1,0 +1,3 @@
+[submodule "eventick.github.com"]
+	path = eventick.github.com
+	url = git@github.com:eventick/eventick.github.com.git
