@@ -1,8 +1,8 @@
 require 'minitest/spec'
 require 'minitest/autorun'
 require 'turn'
-require 'eventick'
 require 'fakeweb'
+require File.expand_path('../../lib/eventick.rb', __FILE__)
 
 module TestHelpers
   BASE_PATH = File.expand_path("../fixtures", __FILE__)
@@ -11,24 +11,35 @@ module TestHelpers
     File.join(BASE_PATH, path)
   end
 
-  def fake_get_url(uri, response, params={})
-    uri += with_params(uri, params) unless params.empty?
-    FakeWeb.register_uri(:get, uri, :body => response)
+  def auth_url(path, auth)
+     if !auth.empty? && auth[:user]
+        auth_str = "#{ CGI.escape(auth[:user].to_s) }:#{ CGI.escape(auth[:password].to_s) }@"
+    end
+
+     "https://#{ auth_str }www.eventick.com.br/api/v1/#{ path }"
   end
 
-  def fake_put_url(uri, response)
-    FakeWeb.register_uri(:put, uri, :body => response)
+  def fake_get_url(path, response, auth={}, params={})
+    url = auth_url(path, auth)
+    url = with_params(url, params)
+    FakeWeb.register_uri(:get, url, :body => response)
   end
 
-  def with_params(url, params)
-    url.request_uri + "?" + params.map {|k,v| CGI.escape(k.to_s)+'='+CGI.escape(v.to_s) }.join("&")
+  def fake_put_url(path, response, auth={})
+    url = auth_url(path, auth)
+    FakeWeb.register_uri(:put, url, :body => response)
+  end
+
+  def with_params(url, params )
+    escape_pair = Proc.new {|k,v| CGI.escape(k.to_s)+'='+CGI.escape(v.to_s) }
+    to_query = "?" + params.map(&escape_pair).join("&") unless params.empty?
+    "#{ url }#{ to_query }"
   end
 end
 
 class MiniTest::Spec
   include TestHelpers
 
-  let (:auth_params) { { :email => 'jesus@eventick.com.br', :password => 12345678 } }
   let (:events_params) { { :auth_token => 'dpoi2154wijdsk4fo65ow4o2pkd' } }
   let (:attendees_params) { { :auth_token => 'dpoi2154wijdsk4fo65ow4o2pkd', :event_id => '11' } }
 
@@ -43,7 +54,7 @@ class MiniTest::Spec
     register_malformed_token_request
 
     Eventick.config do |eventick|
-      eventick.email = 'jesus@eventick.com.br'
+      eventick.email = 'testing@eventick.com.br'
       eventick.password = '12345678'
     end
   end
@@ -52,7 +63,7 @@ private
   def register_malformed_token_request
     FakeWeb.register_uri(
       :get,
-      'http://eventick.com.br/api/v1/tokens.json?email=&password=',
+      'https://www.eventick.com.br/api/v1/tokens.json',
       :body => 'The request could not be understood by the server due to malformed syntax. The client SHOULD NOT repeat the request without modifications.',
       :status => ['404', 'Bad Request']
     )

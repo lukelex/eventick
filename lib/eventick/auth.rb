@@ -1,5 +1,8 @@
-class Eventick::Auth
-  URI = URI('http://eventick.com.br/api/v1/tokens.json')
+require_relative 'base'
+
+module Eventick
+  class Auth < Base
+  resource "tokens"
 
   attr_accessor :email
   attr_writer :password
@@ -9,11 +12,21 @@ class Eventick::Auth
   end
 
   def token
-    @token ||= (Eventick.request URI, params)['token']
+    @token ||= (get)['token']
+  end
+
+  def authenticated?
+    !!@token
   end
 
 private
-  def params
-    { :email => @email, :password => @password }
+    def get
+      @token = nil
+      path = Eventick.api_path self.class.path
+      method = Net::HTTP::Get.new(path)
+      method.basic_auth @email, @password
+
+      Eventick.request(method)
+    end
   end
 end

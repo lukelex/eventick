@@ -1,27 +1,49 @@
 require 'net/http'
 require 'json'
 require 'cgi'
+require 'openssl'
 
-require "eventick/version"
-
-require 'eventick/auth'
-require 'eventick/event'
-require 'eventick/attendee'
-require 'eventick/ticket'
-require 'eventick/checkin'
+require_relative './eventick/version'
+require_relative './eventick/auth'
+require_relative './eventick/event'
+require_relative './eventick/attendee'
+require_relative './eventick/ticket'
+require_relative './eventick/checkin'
 
 module Eventick
+  BASE_URL = 'www.eventick.com.br'
+  BASE_PATH = '/api/v1/'
+
   def self.config(&block)
     @auth = Eventick::Auth.new &block
   end
 
-  def self.request(uri, params={})
+  def self.get(resource, params={})
+    path = with_params path, params
+    method = Net::HTTP::Get.new(path)
+
+    request(method)
+  end
+
+  def self.put(resource, params={})
+    path = api_path resource
+    method = Net::HTTP::Put.new(path)
+    method.set_form_data(params)
+
+    request(method, params)
+  end
+
+  def self.request(method, params={})
+    uri = URI("https://#{ BASE_URL }")
     http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true if uri.scheme == 'https'
+    http.use_ssl = true
+
+    if auth && auth.authenticated?
+        method.basic_auth auth_token, ''
+    end
 
     response = http.start do |http|
-      path = with_params uri.request_uri, params
-      http.request Net::HTTP::Get.new(path)
+        http.request method
     end
 
     return {} unless response.is_a? Net::HTTPSuccess
@@ -30,22 +52,12 @@ module Eventick
     JSON.parse(response.body)
   end
 
-  def self.put(uri, params={})
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true if uri.scheme == 'https'
-
-    response = http.start do |http|
-      http.request_put(uri.request_uri, params)
-    end
-
-    return {} unless response.is_a? Net::HTTPSuccess
-    # return response.body unless block_given?
-    # yield JSON.parse(response.body)
-    JSON.parse(response.body)
+  def self.api_path(resource)
+    BASE_PATH + resource
   end
 
   def self.auth_token
-    @auth.token
+    @auth.token if @auth
   end
 
   def self.auth

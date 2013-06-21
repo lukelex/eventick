@@ -2,6 +2,7 @@ require_relative '../test_helper'
 
 describe Eventick::Auth do
   let (:auth) { Eventick.auth }
+  let (:auth_params) { { :user => 'testing@eventick.com.br', :password => 12345678 } }
 
   describe 'checking method initialization' do
     it ('email') { auth.must_respond_to :email }
@@ -21,7 +22,7 @@ describe Eventick::Auth do
 
   describe 'getting the api token' do
     before do
-      fake_get_url Eventick::Auth::URI, auth_response, auth_params
+      fake_get_url Eventick::Auth.path, auth_response, auth_params
     end
 
     it 'with valid credentials' do
