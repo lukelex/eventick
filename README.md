@@ -1,5 +1,7 @@
 # Eventick
 
+Eventick is a simple API wrapper public Eventick API.
+
 TODO: Write a gem description
 
 ## Installation
