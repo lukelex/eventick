@@ -4,13 +4,22 @@ module Eventick
         @resource = res
     end
 
-    def self.path
+    def self.path(args={})
         if @resource
-            "#{ @resource }.json"
+            path = translate(args)
+            "#{ path }.json"
         else
             warn "The #{ self.name } class has not defined any resource path."
             raise
         end
     end
+
+    def self.translate(args)
+        if args.empty?
+            path = @resource.gsub(/\/:(.\w)/, "")
+        end
+        path
+    end
+
   end
 end

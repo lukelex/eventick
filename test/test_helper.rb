@@ -13,7 +13,8 @@ module TestHelpers
 
   def auth_url(path, auth)
      if !auth.empty? && auth[:user]
-        auth_str = "#{ CGI.escape(auth[:user].to_s) }:#{ CGI.escape(auth[:password].to_s) }@"
+         pass = ":#{ CGI.escape(auth[:password].to_s) }" if auth[:password]
+        auth_str = "#{ CGI.escape(auth[:user].to_s) }#{ pass }@"
     end
 
      "https://#{ auth_str }www.eventick.com.br/api/v1/#{ path }"
@@ -40,7 +41,6 @@ end
 class MiniTest::Spec
   include TestHelpers
 
-  let (:events_params) { { :auth_token => 'dpoi2154wijdsk4fo65ow4o2pkd' } }
   let (:attendees_params) { { :auth_token => 'dpoi2154wijdsk4fo65ow4o2pkd', :event_id => '11' } }
 
   let (:auth_response) { fetch_fixture_path('auth.json') }
@@ -52,11 +52,14 @@ class MiniTest::Spec
     FakeWeb.allow_net_connect = false
 
     register_malformed_token_request
+    register_token_request
 
     Eventick.config do |eventick|
       eventick.email = 'testing@eventick.com.br'
       eventick.password = '12345678'
     end
+
+    Eventick.auth_token
   end
 
 private
@@ -65,7 +68,12 @@ private
       :get,
       'https://www.eventick.com.br/api/v1/tokens.json',
       :body => 'The request could not be understood by the server due to malformed syntax. The client SHOULD NOT repeat the request without modifications.',
-      :status => ['404', 'Bad Request']
+      :status => ['401', 'Not Authorized']
     )
   end
+
+  def register_token_request
+    fake_get_url Eventick::Auth.path, auth_response, { :user => 'testing@eventick.com.br', :password => 12345678 }
+  end
+
 end

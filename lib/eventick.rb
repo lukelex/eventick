@@ -19,6 +19,7 @@ module Eventick
   end
 
   def self.get(resource, params={})
+    path = api_path resource
     path = with_params path, params
     method = Net::HTTP::Get.new(path)
 
@@ -39,7 +40,7 @@ module Eventick
     http.use_ssl = true
 
     if auth && auth.authenticated?
-        method.basic_auth auth_token, ''
+        method.basic_auth auth_token, ""
     end
 
     response = http.start do |http|
@@ -65,7 +66,9 @@ module Eventick
   end
 
 private
-  def self.with_params(url, params)
-    url + "?" + params.map {|k,v| CGI.escape(k.to_s)+'='+CGI.escape(v.to_s) }.join("&")
+   def self.with_params(url, params )
+    escape_pair = Proc.new {|k,v| CGI.escape(k.to_s)+'='+CGI.escape(v.to_s) }
+    to_query = "?" + params.map(&escape_pair).join("&") unless params.empty?
+    "#{ url }#{ to_query }"
   end
 end

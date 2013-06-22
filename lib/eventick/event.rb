@@ -2,7 +2,7 @@ require_relative 'base'
 
 module Eventick
     class Event < Base
-      resource "events"
+      resource "events/:id"
 
       attr_accessor :id, :start_at, :title, :tickets
       attr_reader :attendees, :all
@@ -15,9 +15,17 @@ module Eventick
       end
 
       # class methods
-      def self.all(reload = false)
-        events_response = Eventick.get
-        events_response.map { |event_response| self.new event_response }
+      def self.all
+        events_response = Eventick.get path
+        events_response['events'].map { |event_response| self.new event_response }
+      end
+
+      # class methods
+      def self.find_by_id(id)
+        resource = "events/#{ id }.json"
+        events_response = Eventick.get resource
+        params = events_response['events'].first
+        self.new params unless params.empty?
       end
 
       # instance methods
