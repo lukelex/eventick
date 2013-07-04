@@ -1,19 +1,31 @@
-class Eventick::Attendee
-  URI = URI('http://eventick.com.br/api/v1/attendees.json')
+module Eventick
+  class Attendee < Base
+    resource "events/:event_id/attendees/:id"
 
-  attr_accessor :id, :name, :search_index
-  attr_accessor :code, :ticket_type, :checked_at
+    attr_accessor :id, :name
+    attr_accessor :code, :ticket_type, :checked_at
 
-  def initialize(args={})
-    args.each do |key, value|
-      self.public_send("#{key}=", value)
+    def initialize(args={})
+      args.each do |key, value|
+        self.public_send("#{key}=", value)
+      end
     end
-  end
 
   # class methods
-  def self.get_by_event(event)
-    attendees_response = Eventick.request URI, params(event)
-    attendees_response.map { |attendee_response| self.new attendee_response }
+  def self.all(event)
+    params = params(event)
+    attendees_response =  Eventick.get path(params)
+    attendees_response['attendees'].map { |attendee_json| self.new attendee_json }
+  end
+
+  def self.find_by_id(event, attendee_id)
+    attendees_response =  Eventick.get path(params(event, attendee_id))
+    params = attendees_response['attendees'].first
+    self.new params unless params.empty?
+  end
+
+  def search_index
+    self.name
   end
 
   def checkin
@@ -21,7 +33,12 @@ class Eventick::Attendee
   end
 
 private
-  def self.params(event)
-    { :auth_token => Eventick.auth_token, :event_id => event.id }
+    def self.params(event, attendee_id = nil)
+      event_id = event
+      event_id = event.id if event.is_a? Event
+      params = { :event_id => event_id }
+      params.merge!({ id: attendee_id }) if attendee_id
+      params
+    end
   end
 end

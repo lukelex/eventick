@@ -4,14 +4,17 @@ module Eventick
     class Event < Base
       resource "events/:id"
 
-      attr_accessor :id, :start_at, :title, :tickets
+      attr_accessor :id, :start_at, :title, :tickets, :venue, :slug
       attr_reader :attendees, :all
 
       # constructors
       def initialize(args={})
+        links = args.delete('links')
         args.each do |key, value|
           self.public_send("#{key}=", value)
         end
+
+        self.tickets = links['tickets'].map{ |o| Ticket.new(o) } if links
       end
 
       # class methods
@@ -22,8 +25,7 @@ module Eventick
 
       # class methods
       def self.find_by_id(id)
-        resource = "events/#{ id }.json"
-        events_response = Eventick.get resource
+        events_response = Eventick.get path({ id: id })
         params = events_response['events'].first
         self.new params unless params.empty?
       end
@@ -31,7 +33,7 @@ module Eventick
       # instance methods
       def attendees(reload = false)
         if reload || @attendees.nil?
-            @attendees = Eventick::Attendee.get_by_event self
+            @attendees = Eventick::Attendee.all self
         end
 
         @attendees

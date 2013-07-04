@@ -40,12 +40,13 @@ end
 
 class MiniTest::Spec
   include TestHelpers
-
-  let (:attendees_params) { { :auth_token => 'dpoi2154wijdsk4fo65ow4o2pkd', :event_id => '11' } }
+  let (:auth_params) { { :user => 'dpoi2154wijdsk4fo65ow4o2pkd' } }
 
   let (:auth_response) { fetch_fixture_path('auth.json') }
   let (:events_response) { fetch_fixture_path('events.json') }
+  let (:find_event_response) { fetch_fixture_path('event.json') }
   let (:attendees_response) { fetch_fixture_path('attendees.json') }
+  let (:find_attendee_response) { fetch_fixture_path('attendee.json') }
   let (:checkin_response) { fetch_fixture_path('checkin.json') }
 
   before do
