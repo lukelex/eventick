@@ -3,7 +3,7 @@ module Eventick
     resource "events/:event_id/attendees/:id"
 
     attr_accessor :id, :name
-    attr_accessor :code, :ticket_type, :checked_at
+    attr_accessor :code, :ticket_type, :checked_at, :event_id
 
     def initialize(args={})
       args.each do |key, value|
@@ -15,13 +15,17 @@ module Eventick
   def self.all(event)
     params = params(event)
     attendees_response =  Eventick.get path(params)
-    attendees_response['attendees'].map { |attendee_json| self.new attendee_json }
+    attendees = attendees_response['attendees'].map { |attendee_json| self.new attendee_json }
+    attendees.each { |a| a.event_id = params[:event_id] }
   end
 
   def self.find_by_id(event, attendee_id)
-    attendees_response =  Eventick.get path(params(event, attendee_id))
+    params = params(event, attendee_id)
+    attendees_response =  Eventick.get path(params)
     params = attendees_response['attendees'].first
-    self.new params unless params.empty?
+    attendee = self.new params unless params.empty?
+    attendee.event_id = params[:event_id]
+    attendee
   end
 
   def search_index
@@ -30,6 +34,10 @@ module Eventick
 
   def checkin
     Eventick::Checkin.create self
+  end
+
+  def to_param
+     { event_id: self.event_id, code: self.code }
   end
 
 private

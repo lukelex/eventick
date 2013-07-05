@@ -30,6 +30,7 @@ module Eventick
     path = api_path resource
     method = Net::HTTP::Put.new(path)
     method.set_form_data(params)
+    method.content_type = 'application/json'
 
     request(method, params)
   end
