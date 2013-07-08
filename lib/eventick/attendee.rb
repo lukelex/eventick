@@ -20,11 +20,11 @@ module Eventick
   end
 
   def self.find_by_id(event, attendee_id)
-    params = params(event, attendee_id)
-    attendees_response =  Eventick.get path(params)
+    data = params(event, attendee_id)
+    attendees_response =  Eventick.get path(data)
     params = attendees_response['attendees'].first
     attendee = self.new params unless params.empty?
-    attendee.event_id = params[:event_id]
+    attendee.event_id = data[:event_id]
     attendee
   end
 

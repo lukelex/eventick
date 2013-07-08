@@ -10,19 +10,18 @@ describe Eventick::Checkin do
   end
 
   describe 'checkin attendees' do
+    let(:attendee) { Eventick::Attendee.find_by_id(24, 145 ) }
+
     before do
-      fake_get_url Eventick::Auth::URI, auth_response, auth_params
-      fake_get_url Eventick::Event::URI, events_response, events_params
-      fake_get_url Eventick::Attendee::URI, attendees_response, attendees_params
-      fake_put_url Eventick::Checkin::URI, checkin_response
+      fake_get_url Eventick::Attendee.path({ event_id: 24, id: 145 } ), find_attendee_response, auth_params
+      fake_put_url Eventick::Checkin.path({ event_id: 24, code: "AD54E" } ), "{\"boo\": 1 }", auth_params
     end
 
     it 'just one' do
-      event = Eventick::Event.all.first
-      attendee = event.attendees.first
+        puts attendee.inspect
       checkin_obj = attendee.checkin
-      checkin_obj.must_be_instance_of Eventick::Checkin
-      attendee.checked_at.must_equal checkin_obj.checkin_time
+      checkin_obj.must_equal true
+      attendee.checked_at.wont_be_nil
     end
   end
 end

@@ -25,7 +25,7 @@ module Eventick
 
       def save
         params = self.attendee.to_param
-        checkin_response = Eventick.put path(params), { checked_at: checkin_time}
+        checkin_response = Eventick.put self.class.path(params), { checked_at: checkin_time}
         self.attendee.checked_at = checkin_time
         true
       end
