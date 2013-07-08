@@ -7,11 +7,12 @@ require 'eventick/version'
 Gem::Specification.new do |gem|
   gem.name          = "eventick"
   gem.version       = Eventick::VERSION
-  gem.authors       = ["Lukas Alexandre"]
-  gem.email         = ["lukasalexandre@me.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.authors       = [ "Lukas Alexandre", "Thiago Diniz"]
+  gem.email         = ["lukasalexandre@me.com", "thiago@eventick.com.br"]
+  gem.description   = %q{Eventick is a simple API wrapper public Eventick API.}
+  gem.summary       = %q{Eventick is a simple API wrapper public Eventick API.}
   gem.homepage      = ""
+  gem.license = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
