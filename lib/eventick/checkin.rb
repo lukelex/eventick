@@ -13,18 +13,19 @@ module Eventick
         (self.new :attendee => attendee).save
       end
 
-      def self.all(event ,attendees)
+      def self.all(event,attendees)
         params = params(event)
         checkin_time = Time.now
-        atts = attendees.map{ |a| { id: a.id, checked_at: checkin_time }  }
-        data = { :attendees => atts }
+        attendees.each{ |a| a.checkin_at = checkin_time }
+        atts = attendees.map{ |a| a.to_json }.join(",")
+        data = "{ 'attendees': [#{ atts }]  }"
         checkin_response = Eventick.put path(params), data
         true
       end
 
       def save
         params = self.attendee.to_param
-        checkin_response = Eventick.put path(params)
+        checkin_response = Eventick.put path(params), { checked_at: checkin_time}
         self.attendee.checked_at = checkin_time
         true
       end

@@ -40,6 +40,10 @@ module Eventick
      { event_id: self.event_id, code: self.code }
   end
 
+  def to_json
+      "{ 'id': #{ self.id }, 'checked_at': '#{ self.checkin_at }' }"
+  end
+
 private
     def self.params(event, attendee_id = nil)
       event_id = event
