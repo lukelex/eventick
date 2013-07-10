@@ -48,10 +48,10 @@ module Eventick
         http.request method
     end
 
-    return {} unless response.is_a? Net::HTTPSuccess
+    return { } unless response.is_a? Net::HTTPSuccess
     # return response.body unless block_given?
     # yield JSON.parse(response.body)
-    JSON.parse(response.body)
+     JSON.parse(response.body)  unless response.body.nil?
   end
 
   def self.api_path(resource)

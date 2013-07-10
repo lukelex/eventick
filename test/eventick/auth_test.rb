@@ -21,7 +21,8 @@ describe Eventick::Auth do
 
   describe 'getting the api token' do
     it 'with valid credentials' do
-      auth.token.must_equal auth_response['token']
+      puts auth_response
+      auth.token.must_equal auth_params[:user]
     end
 
     it 'with invalid credentials' do

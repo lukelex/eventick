@@ -18,7 +18,6 @@ describe Eventick::Checkin do
     end
 
     it 'just one' do
-        puts attendee.inspect
       checkin_obj = attendee.checkin
       checkin_obj.must_equal true
       attendee.checked_at.wont_be_nil
