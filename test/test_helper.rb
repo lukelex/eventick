@@ -5,24 +5,23 @@ require 'fakeweb'
 require File.expand_path('../../lib/eventick.rb', __FILE__)
 
 module TestHelpers
-  BASE_PATH = File.expand_path("../fixtures", __FILE__)
+  BASE_PATH = File.expand_path('../fixtures', __FILE__)
 
   def fetch_fixture_path(path)
     File.join(BASE_PATH, path)
   end
 
   def auth_url(path, auth)
-     if !auth.empty? && auth[:user]
-         pass = ":#{ CGI.escape(auth[:password].to_s) }" if auth[:password]
-        auth_str = "#{ CGI.escape(auth[:user].to_s) }#{ pass }@"
+    if !auth.empty? && auth[:user]
+      pass      = ":#{ escape(auth[:password]) }" if auth[:password]
+      auth_str  = "#{ escape(auth[:user]) }#{ pass }@"
     end
 
-     "https://#{ auth_str }www.eventick.com.br/api/v1/#{ path }"
+    "https://#{ auth_str }www.eventick.com.br/api/v1/#{ path }"
   end
 
   def fake_get_url(path, response, auth={}, params={})
-    url = auth_url(path, auth)
-    url = with_params(url, params)
+    url = compose_url path, auth, params
     FakeWeb.register_uri(:get, url, :body => response)
   end
 
@@ -32,9 +31,17 @@ module TestHelpers
   end
 
   def with_params(url, params )
-    escape_pair = Proc.new {|k,v| CGI.escape(k.to_s)+'='+CGI.escape(v.to_s) }
-    to_query = "?" + params.map(&escape_pair).join("&") unless params.empty?
+    escape_pair = Proc.new { |k,v| escape(k) + '=' + escape(v) }
+    to_query = '?' + params.map(&escape_pair).join('&') unless params.empty?
     "#{ url }#{ to_query }"
+  end
+
+  def escape(params)
+    CGI.escape params.to_s
+  end
+
+  def compose_url(path, auth, params)
+    with_params auth_url(path, auth), params
   end
 end
 
