@@ -6,10 +6,9 @@ describe Eventick::Ticket do
 
   describe 'initialization with argument' do
     it "should assing the values" do
-       args.keys.each do |field|
+      args.keys.each do |field|
         ticket.send(field).must_equal args[field]
-       end
+      end
     end
   end
-
 end

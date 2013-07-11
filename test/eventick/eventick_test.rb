@@ -6,7 +6,7 @@ describe Eventick do
     it ('auth_token') { Eventick.must_respond_to :auth_token }
 
     it 'should have a version' do
-        Eventick::VERSION.wont_be_nil
+      Eventick::VERSION.wont_be_nil
     end
   end
 end

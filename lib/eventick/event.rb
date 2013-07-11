@@ -22,7 +22,6 @@ module Eventick
         events_response['events'].map { |event_response| self.new event_response }
       end
 
-      # class methods
       def self.find_by_id(id)
         path = path({ id: id }) unless id.nil?
         events_response = Eventick.get path
