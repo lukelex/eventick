@@ -1,1 +1,11 @@
-{"attendees":[{"id":145,"name":"Cirdes Henrique","code":"AD54E","ticket_type":"Gratuito","checked_at":null}]}
+{
+  "attendees": [
+    {
+      "id":145,
+      "name":"Cirdes Henrique",
+      "code":"AD54E",
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    }
+  ]
+}

@@ -1,1 +1,74 @@
-{"attendees":[{"id":143,"name":"Adones Cunha","code":null,"ticket_type":"Gratuito","checked_at":null},{"id":140,"name":"Bruno Coelho","code":null,"ticket_type":"Gratuito","checked_at":null},{"id":148,"name":"Bruno Luigi","code":"w4KKO5MZ2Um9Igzz","ticket_type":"Gratuito","checked_at":null},{"id":145,"name":"Cirdes Henrique","code":null,"ticket_type":"Gratuito","checked_at":null},{"id":142,"name":"Clélia","code":null,"ticket_type":"Gratuito","checked_at":null},{"id":146,"name":"Felipe Gabardo","code":null,"ticket_type":"Gratuito","checked_at":null},{"id":144,"name":"Guilherme Barreto","code":null,"ticket_type":"Gratuito","checked_at":"2013-05-17T15:41:07-03:00"},{"id":141,"name":"Klayton De Oliveira","code":null,"ticket_type":"Gratuito","checked_at":null},{"id":139,"name":"Lailson Bandeira","code":null,"ticket_type":"Gratuito","checked_at":null},{"id":147,"name":"Pedro Aranha","code":null,"ticket_type":"Gratuito","checked_at":null}]}
+{
+  "attendees": [
+    {
+      "id":143,
+      "name":"Adones Cunha",
+      "code":null,
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    },
+    {
+      "id":140,
+      "name":"Bruno Coelho",
+      "code":null,
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    },
+    {
+      "id":148,
+      "name":"Bruno Luigi",
+      "code":"w4KKO5MZ2Um9Igzz",
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    },
+    {
+      "id":145,
+      "name":"Cirdes Henrique",
+      "code":null,
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    },
+    {
+      "id":142,
+      "name":"Clélia",
+      "code":null,
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    },
+    {
+      "id":146,
+      "name":"Felipe Gabardo",
+      "code":null,
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    },
+    {
+      "id":144,
+      "name":"Guilherme Barreto",
+      "code":null,
+      "ticket_type":"Gratuito",
+      "checked_at":"2013-05-17T15:41:07-03:00"
+    },
+    {
+      "id":141,
+      "name":"Klayton De Oliveira",
+      "code":null,
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    },
+    {
+      "id":139,
+      "name":"Lailson Bandeira",
+      "code":null,
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    },
+    {
+      "id":147,
+      "name":"Pedro Aranha",
+      "code":null,
+      "ticket_type":"Gratuito",
+      "checked_at":null
+    }
+  ]
+}

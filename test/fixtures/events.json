@@ -1,1 +1,59 @@
-{"events":[{"id":24,"title":"Cervejada do Eventick","start_at":"2011-11-17T18:00:00-03:00"},{"id":22,"title":"Conversa de Negócios","start_at":"2011-11-10T09:00:00-03:00"},{"id":17,"title":"Empreededorismo e advocacia","start_at":"2011-10-27T14:50:00-03:00"},{"id":26,"title":"Encontro #14  FrevoOnRails","start_at":"2011-11-21T17:30:00-03:00"},{"id":8,"title":"exemplo de evento","start_at":"2013-12-01T18:00:00-03:00"},{"id":547,"title":"Manguezal Meetup","start_at":"2012-07-26T16:00:00-03:00"},{"id":192,"title":"Manguezal Meetup","start_at":"2012-03-02T16:30:00-03:00"},{"id":2495,"title":"Manguezal Meetup - Demo Edition","start_at":"2013-07-05T18:00:00-03:00"},{"id":11,"title":"PE Nova Musica ","start_at":"2011-10-11T23:00:00-03:00"},{"id":1218,"title":"Sunset Conecta.la: Edição especial do Maguez.al","start_at":"2012-12-27T18:00:00-03:00"},{"id":108,"title":"Testing","start_at":"2012-01-07T20:51:00-03:00"}]}
+{
+  "events":[
+    {
+      "id":24,
+      "title":"Cervejada do Eventick",
+      "start_at":"2011-11-17T18:00:00-03:00"
+    },
+    {
+      "id":22,
+      "title":"Conversa de Negócios",
+      "start_at":"2011-11-10T09:00:00-03:00"
+    },
+    {
+      "id":17,
+      "title":"Empreededorismo e advocacia",
+      "start_at":"2011-10-27T14:50:00-03:00"
+    },
+    {
+      "id":26,
+      "title":"Encontro #14  FrevoOnRails",
+      "start_at":"2011-11-21T17:30:00-03:00"
+    },
+    {
+      "id":8,
+      "title":"exemplo de evento",
+      "start_at":"2013-12-01T18:00:00-03:00"
+    },
+    {
+      "id":547,
+      "title":"Manguezal Meetup",
+      "start_at":"2012-07-26T16:00:00-03:00"
+    },
+    {
+      "id":192,
+      "title":"Manguezal Meetup",
+      "start_at":"2012-03-02T16:30:00-03:00"
+    },
+    {
+      "id":2495,
+      "title":"Manguezal Meetup - Demo Edition",
+      "start_at":"2013-07-05T18:00:00-03:00"
+    },
+    {
+      "id":11,
+      "title":"PE Nova Musica",
+      "start_at":"2011-10-11T23:00:00-03:00"
+    },
+    {
+      "id":1218,
+      "title":"Sunset Conecta.la: Edição especial do Maguez.al",
+      "start_at":"2012-12-27T18:00:00-03:00"
+    },
+    {
+      "id":108,
+      "title":"Testing",
+      "start_at":"2012-01-07T20:51:00-03:00"
+    }
+  ]
+}
