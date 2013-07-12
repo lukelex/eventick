@@ -5,12 +5,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'eventick/version'
 
 Gem::Specification.new do |gem|
-  gem.name          = "eventick"
+  gem.name          = "eventick_api"
   gem.version       = Eventick::VERSION
-  gem.authors       = [ "Lukas Alexandre", "Thiago Diniz"]
+  gem.authors       = ["Lukas Alexandre", "Thiago Diniz"]
   gem.email         = ["lukasalexandre@me.com", "thiago@eventick.com.br"]
-  gem.description   = %q{Eventick is a simple API wrapper public Eventick API.}
-  gem.summary       = %q{Eventick is a simple API wrapper public Eventick API.}
+  gem.description   = %q{Eventick is a simple API wrapper for Eventick's public API.}
+  gem.summary       = %q{Eventick is a simple API wrapper for Eventick's public API.}
   gem.homepage      = ""
   gem.license = 'MIT'
 
