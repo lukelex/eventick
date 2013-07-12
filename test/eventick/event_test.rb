@@ -26,7 +26,7 @@ describe Eventick::Event do
 
   describe 'retrieving one event' do
     let(:params) { { id: 24 }}
-    let(:event) {  Eventick::Event.find_by_id params[:event_id] }
+    let(:event) { Eventick::Event.find_by_id params[:id] }
 
     before do
       fake_get_url Eventick::Event.path(params), find_event_response, auth_params

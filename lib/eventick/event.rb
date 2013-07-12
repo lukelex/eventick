@@ -13,7 +13,6 @@ module Eventick
         args.each do |key, value|
           self.public_send("#{key}=", value)
         end
-
         self.tickets = links['tickets'].map{ |o| Ticket.new(o) } if links
       end
 
@@ -25,8 +24,10 @@ module Eventick
 
       # class methods
       def self.find_by_id(id)
-        events_response = Eventick.get path({ id: id })
+        path = path({ id: id }) unless id.nil?
+        events_response = Eventick.get path
         params = events_response['events'].first
+
         self.new params unless params.empty?
       end
 

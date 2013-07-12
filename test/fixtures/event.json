@@ -2,7 +2,7 @@
     "events":[
         {
             "id":24,
-            "title":"Cervejada do Eventick",
+            "title":"Eventick Meeting",
             "venue":"Eventick HQ",
             "slug":"ceventick",
             "start_at":"2011-11-17T18:00:00-03:00",
