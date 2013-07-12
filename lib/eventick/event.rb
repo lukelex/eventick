@@ -1,29 +1,48 @@
-class Eventick::Event
-  URI = URI('http://eventick.com.br/api/v1/events.json')
+require_relative 'base'
 
-  attr_accessor :id, :start_at, :title, :tickets
-  attr_reader :attendees
+module Eventick
+    class Event < Base
+      resource "events/:id"
 
-  # constructors
-  def initialize(args={})
-    args.each do |key, value|
-      self.public_send("#{key}=", value)
+      attr_accessor :id, :start_at, :title, :tickets, :venue, :slug
+      attr_reader :attendees, :all
+
+      # constructors
+      def initialize(args={})
+        links = args.delete('links')
+        args.each do |key, value|
+          self.public_send("#{key}=", value)
+        end
+        self.tickets = links['tickets'].map{ |o| Ticket.new(o) } if links
+      end
+
+      # class methods
+      def self.all
+        events_response = Eventick.get path
+        events_response['events'].map { |event_response| self.new event_response }
+      end
+
+      # class methods
+      def self.find_by_id(id)
+        path = path({ id: id }) unless id.nil?
+        events_response = Eventick.get path
+        params = events_response['events'].first
+
+        self.new params unless params.empty?
+      end
+
+      # instance methods
+      def attendees(reload = false)
+        if reload || @attendees.nil?
+            @attendees = Eventick::Attendee.all self
+        end
+
+        @attendees
+      end
+
+  private
+    def self.auth_token
+      { :auth_token => Eventick.auth_token }
     end
-  end
-
-  # class methods
-  def self.all
-    events_response = Eventick.request URI, auth_token
-    events_response.map { |event_response| self.new event_response }
-  end
-
-  # instance methods
-  def attendees
-    @attendees ||= Eventick::Attendee.get_by_event self
-  end
-
-private
-  def self.auth_token
-    { :auth_token => Eventick.auth_token }
   end
 end

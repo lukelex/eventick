@@ -1,51 +1,65 @@
 require 'net/http'
 require 'json'
 require 'cgi'
+require 'openssl'
 
-require "eventick/version"
-
-require 'eventick/auth'
-require 'eventick/event'
-require 'eventick/attendee'
-require 'eventick/ticket'
-require 'eventick/checkin'
+require_relative './eventick/version'
+require_relative './eventick/auth'
+require_relative './eventick/event'
+require_relative './eventick/attendee'
+require_relative './eventick/ticket'
+require_relative './eventick/checkin'
 
 module Eventick
+  BASE_URL = 'www.eventick.com.br'
+  BASE_PATH = '/api/v1/'
+
   def self.config(&block)
     @auth = Eventick::Auth.new &block
   end
 
-  def self.request(uri, params={})
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true if uri.scheme == 'https'
+  def self.get(resource, params={})
+    path = api_path resource
+    path = with_params path, params
+    method = Net::HTTP::Get.new(path)
 
-    response = http.start do |http|
-      path = with_params uri.request_uri, params
-      http.request Net::HTTP::Get.new(path)
-    end
-
-    return {} unless response.is_a? Net::HTTPSuccess
-    # return response.body unless block_given?
-    # yield JSON.parse(response.body)
-    JSON.parse(response.body)
+    request(method)
   end
 
-  def self.put(uri, params={})
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true if uri.scheme == 'https'
+  def self.put(resource, params={})
+    path = api_path resource
+    method = Net::HTTP::Put.new(path)
+    method.set_form_data(params)
+    method.content_type = 'application/json' if params.is_a? String
 
-    response = http.start do |http|
-      http.request_put(uri.request_uri, params)
+    request(method, params)
+  end
+
+  def self.request(method, params={})
+    uri = URI("https://#{ BASE_URL }")
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+
+    if auth && auth.authenticated?
+        method.basic_auth auth_token, ""
     end
 
-    return {} unless response.is_a? Net::HTTPSuccess
+    response = http.start do |http|
+        http.request method
+    end
+
+    return { } unless response.is_a? Net::HTTPSuccess
     # return response.body unless block_given?
     # yield JSON.parse(response.body)
-    JSON.parse(response.body)
+     JSON.parse(response.body)  unless response.body.nil?
+  end
+
+  def self.api_path(resource)
+    BASE_PATH + resource
   end
 
   def self.auth_token
-    @auth.token
+    @auth.token if @auth
   end
 
   def self.auth
@@ -53,7 +67,9 @@ module Eventick
   end
 
 private
-  def self.with_params(url, params)
-    url + "?" + params.map {|k,v| CGI.escape(k.to_s)+'='+CGI.escape(v.to_s) }.join("&")
+   def self.with_params(url, params )
+    escape_pair = Proc.new {|k,v| CGI.escape(k.to_s)+'='+CGI.escape(v.to_s) }
+    to_query = "?" + params.map(&escape_pair).join("&") unless params.empty?
+    "#{ url }#{ to_query }"
   end
 end
