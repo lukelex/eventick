@@ -20,6 +20,11 @@ module Eventick
         )
         parser.perform.must_equal 'some_resource/50/something/9'
       end
+
+      it 'double params route without params' do
+        parser = ParamsParser.new 'some_resource/:id/something/:another_id'
+        lambda {parser.perform}.must_raise UnmatchableParams
+      end
     end
   end
 end
