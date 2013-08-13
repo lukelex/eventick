@@ -22,7 +22,6 @@ module Eventick
 
     describe 'getting the api token' do
       it 'with valid credentials' do
-        puts auth_response
         auth.token.must_equal auth_params[:user]
       end
 
