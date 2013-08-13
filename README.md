@@ -1,5 +1,7 @@
 # Eventick
 
+[![Build Status](https://travis-ci.org/lukelex/eventick_api.png?branch=master)](https://travis-ci.org/lukelex/eventick_api)
+
 Eventick is a simple API wrapper public Eventick API.
 
 TODO: Write a gem description

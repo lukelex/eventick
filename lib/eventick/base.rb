@@ -1,27 +1,27 @@
 module Eventick
   class Base
-    def self.resource(res)
-      @resource = res
+    def self.resource(resource)
+      if not resource
+        raise InvalidResource, "The #{ self.name } class has not defined any resource path."
+      elsif resource.include? ' '
+        raise InvalidResource, 'No spaces allowed on a resource'
+      end
+
+      @resource = resource
     end
 
     def self.path(args={})
-      if @resource
-        path = translate(args)
-        "#{ path }.json"
-      else
-        warn "The #{ self.name } class has not defined any resource path."
-        raise
-      end
+      path = translate(args)
+      "#{ path }.json"
     end
 
+private
     def self.translate(args)
-      last_resource_rexp = /\/:(.\w+)$/
+      last_resource_regex = /\/:(.\w+)$/
       resource_keys = /(?<=:)(.\w+)/
 
-      one = @resource.gsub(last_resource_rexp).count == 0
-
       if args.empty?
-        matched = @resource.gsub(last_resource_rexp, "")
+        matched = @resource.gsub(last_resource_regex, "")
       else
         s_args = Hash[args.map{ |k, v| [k.to_s, v] }]
         matched = @resource.gsub(resource_keys, s_args)
@@ -38,6 +38,5 @@ module Eventick
 
       matched
     end
-
   end
 end

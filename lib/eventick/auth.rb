@@ -1,23 +1,21 @@
-require_relative 'base'
-
 module Eventick
   class Auth < Base
-  resource "tokens"
+    resource 'tokens'
 
-  attr_accessor :email
-  attr_writer :password
+    attr_accessor :email
+    attr_writer :password
 
-  def initialize(&block)
-    block.call self if block_given?
-  end
+    def initialize(&block)
+      block.call self if block_given?
+    end
 
-  def token
-    @token ||= (get)['token']
-  end
+    def token
+      @token ||= (get)['token']
+    end
 
-  def authenticated?
-    !!@token
-  end
+    def authenticated?
+      !!@token
+    end
 
 private
     def get

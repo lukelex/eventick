@@ -4,11 +4,13 @@ require 'cgi'
 require 'openssl'
 
 require_relative './eventick/version'
+require_relative './eventick/base'
 require_relative './eventick/auth'
 require_relative './eventick/event'
 require_relative './eventick/attendee'
 require_relative './eventick/ticket'
 require_relative './eventick/checkin'
+require_relative './eventick/exceptions'
 
 module Eventick
   BASE_URL = 'www.eventick.com.br'

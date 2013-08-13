@@ -26,7 +26,7 @@ module Eventick
     end
 
     describe 'retrieving one event' do
-      let(:params) { { id: 24 }}
+      let(:params) { { id: 24 } }
       let(:event) { Event.find_by_id params[:id] }
 
       before do

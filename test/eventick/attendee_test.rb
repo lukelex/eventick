@@ -15,7 +15,7 @@ module Eventick
     end
 
     describe 'retrieving attendees' do
-      let(:events) { { id: 24 }}
+      let(:events) { { id: 24 } }
       let(:attendees) { { event_id: 24 } }
       let(:attendee) { { event_id: 24, id: 145 } }
 
