@@ -21,7 +21,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'json'
 
   gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'turn'
   gem.add_development_dependency 'guard-minitest'
   gem.add_development_dependency 'rb-fsevent'
   gem.add_development_dependency 'minitest'

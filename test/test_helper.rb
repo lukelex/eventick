@@ -1,6 +1,6 @@
 require 'minitest/spec'
 require 'minitest/autorun'
-require 'turn'
+require 'minitest/pride'
 require 'fakeweb'
 require File.expand_path('../../lib/eventick.rb', __FILE__)
 
