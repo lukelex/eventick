@@ -22,9 +22,22 @@ Or install it yourself as:
 
     $ gem install eventick_api
 
+create *eventick_api.rb* in <rails_app_folder>/config/initializers 
+
+	require 'eventick'
+
 ## Usage
 
-TODO: Write usage instructions here
+**Getting Token**
+
+	auth = Eventick::Auth.new
+	
+	auth.email = email
+	auth.password = password
+
+	auth.token
+	
+	
 
 ## Contributing
 
