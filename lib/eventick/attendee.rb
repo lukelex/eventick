@@ -2,7 +2,7 @@ module Eventick
   class Attendee < Base
     resource "events/:event_id/attendees/:id"
 
-    attr_accessor :id, :name
+    attr_accessor :id, :name, :email
     attr_accessor :code, :ticket_type, :checked_at, :event_id
 
     def initialize(args={})

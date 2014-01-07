@@ -17,7 +17,7 @@ module Eventick
     describe 'retrieving attendees' do
       let(:events) { { id: 24 } }
       let(:attendees) { { event_id: 24 } }
-      let(:attendee) { { event_id: 24, id: 145 } }
+      let(:attendee) { { event_id: 24, id: 145, email: "fake@test.com" } }
 
       before do
         fake_get_url Event.path(events), find_event_response, auth_params
@@ -39,6 +39,13 @@ module Eventick
         event_id, attendee_id =  attendee[:event_id], attendee[:id]
         attendee = Attendee.find_by_id(event_id, attendee_id)
         attendee.must_be_kind_of Attendee
+      end
+
+      it 'should set accessors' do
+        person = Attendee.new(attendee)
+        person.event_id.must_equal 24
+        person.id.must_equal 145
+        person.email.must_equal "fake@test.com"
       end
     end
   end
