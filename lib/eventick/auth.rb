@@ -4,6 +4,7 @@ module Eventick
 
     attr_accessor :email
     attr_writer :password
+    attr_writer :token    
 
     def initialize(&block)
       block.call self if block_given?
@@ -12,7 +13,7 @@ module Eventick
     def token
       @token ||= (get)['token']
     end
-
+ 
     def authenticated?
       !!@token
     end

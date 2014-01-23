@@ -9,7 +9,7 @@ module Eventick
       it ('password=') { auth.must_respond_to :password= }
       it ('password') { auth.wont_respond_to :password }
       it ('token') { auth.must_respond_to :token }
-      it ('token=') { auth.wont_respond_to :token= }
+      it ('token=') { auth.must_respond_to :token= }
     end
 
     it 'initializing the object' do
